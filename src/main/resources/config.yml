@@ -1,0 +1,20 @@
+messages:
+  kit-name-is-empty: "Kit name can't be empty"
+  kit-removed: "§aKit %kit% has been removed!"
+  kit-remove-error: "§cError while removing kit!"
+  kit-not-found: "&cКит не найден"
+  kit-already-exists: "§cKit already exists"
+  kit-success-got: "&cТы успешно получил кит %kit%"
+  kit-remaining-time: "Ты сможешь взять кит через: %remaining%"
+  kit-no-permission: "У тебя нет прав чтобы получить этот кит"
+  kit-give-succeed: "&c&lУспешно выдан кит %kit%, игроку &f%player%"
+  player-is-offline: "&cТакого игрока не существует"
+
+menu:
+  glasses: BLACK_STAINED_GLASS_PANE
+  glass-name: "@elpomoika"
+  give-kit-item:
+    material: DIAMOND_SWORD
+    name: "Получить кит"
+    lore:
+      - "Чтобы получить кит, кликните ЛКМ"
