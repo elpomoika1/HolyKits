@@ -4,7 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import lombok.Getter;
 import me.elpomoika.holykits.command.KitCommand;
-import me.elpomoika.holykits.command.menu.PreviewMenu;
+import me.elpomoika.holykits.menu.PreviewMenu;
 import me.elpomoika.holykits.command.tabcomplete.KitTabCompleter;
 import me.elpomoika.holykits.listener.MenuListener;
 import me.elpomoika.holykits.util.Config;

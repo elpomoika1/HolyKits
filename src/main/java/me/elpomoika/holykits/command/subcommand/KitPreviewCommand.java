@@ -2,7 +2,7 @@ package me.elpomoika.holykits.command.subcommand;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import me.elpomoika.holykits.HolyKits;
-import me.elpomoika.holykits.command.menu.PreviewMenu;
+import me.elpomoika.holykits.menu.PreviewMenu;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
 import me.elpomoika.holykits.util.Config;
 import me.elpomoika.holykits.util.InventoryUtil;
