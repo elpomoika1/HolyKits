@@ -1,0 +1,7 @@
+name: HolyKits
+version: '${version}'
+main: me.elpomoika.holykits.HolyKits
+api-version: '1.16'
+commands:
+  kit:
+    description: "general kit command"
