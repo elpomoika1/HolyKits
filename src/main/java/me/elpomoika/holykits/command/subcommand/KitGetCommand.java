@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
+import me.elpomoika.holykits.config.CustomConfig;
 import me.elpomoika.holykits.model.Kit;
 import me.elpomoika.holykits.util.Config;
 import me.elpomoika.holykits.util.InventoryUtil;
@@ -16,20 +17,18 @@ import java.util.concurrent.TimeUnit;
 
 public class KitGetCommand implements SubCommand {
 
-    public static Cache<String, Kit> kitCache;
+    private final Cache<String, Kit> kitCache;
     private final HolyKits plugin;
     private final InventoryUtil inventoryUtil;
     private final Config config;
+    private final CustomConfig customConfig;
 
     public KitGetCommand(HolyKits plugin) {
         this.plugin = plugin;
         this.inventoryUtil = plugin.getInventoryUtil();
         this.config = plugin.getDefaultConfig();
-
-        kitCache = Caffeine.newBuilder()
-                .maximumSize(50)
-                .expireAfterWrite(1, TimeUnit.HOURS)
-                .build();
+        this.customConfig = plugin.getCustomConfig();
+        this.kitCache = plugin.getKitCache();
     }
 
     @Override
@@ -45,7 +44,7 @@ public class KitGetCommand implements SubCommand {
         }
 
         String inputKitName = args[0];
-        ConfigurationSection kitsSection = plugin.getCustomConfig().getConfigurationSection("kits");
+        ConfigurationSection kitsSection = customConfig.getConfigurationSection("kits");
 
         if (kitsSection == null || kitsSection.getKeys(false).isEmpty()) {
             player.sendMessage("§cНет доступных китов!");
@@ -60,7 +59,7 @@ public class KitGetCommand implements SubCommand {
                     return;
                 }
 
-                long cooldownSeconds = plugin.getCustomConfig().getLong("kits." + kitName + ".cooldown", 0);
+                long cooldownSeconds = customConfig.getLong("kits." + kitName + ".cooldown", 0);
 
                 if (cooldownSeconds > 0) {
                     String cooldownKey = "kit_" + kitName;

@@ -2,6 +2,7 @@ package me.elpomoika.holykits.command.subcommand;
 
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
+import me.elpomoika.holykits.config.CustomConfig;
 import me.elpomoika.holykits.util.Config;
 import me.elpomoika.holykits.util.InventoryUtil;
 import org.bukkit.ChatColor;
@@ -16,11 +17,13 @@ public class KitCreateCommand implements SubCommand {
     private final InventoryUtil inventoryUtil;
     private final HolyKits plugin;
     private final Config config;
+    private final CustomConfig customConfig;
 
     public KitCreateCommand(HolyKits plugin) {
         this.plugin = plugin;
         this.inventoryUtil = plugin.getInventoryUtil();
         this.config = plugin.getDefaultConfig();
+        this.customConfig = plugin.getCustomConfig();
     }
 
 
@@ -36,28 +39,29 @@ public class KitCreateCommand implements SubCommand {
             return;
         }
 
-        if (!player.hasPermission("holykits.admin")) {
-            return;
-        }
+        if (!player.hasPermission("holykits.admin")) return;
 
         if (args.length == 1) {
             sender.sendMessage("§cИспользуйте: " + getUsage());
             return;
         }
 
-        if (args[1].isEmpty()) {
+        if (customConfig.isKitNameEmpty(args[1])) {
             config.send(player, "kit-name-is-empty");
-        } else if (args[1].equalsIgnoreCase(String.valueOf(plugin.getCustomConfig().getConfigurationSection("kits")))) {
+            return;
+        } else if (customConfig.isKitExists(args[1])) {
             config.send(player, "kit-already-exists");
+            return;
         }
+
         try {
             inventoryUtil.serializePlayerInventory(player.getInventory(), args[1]);
             if (player.getEquipment() != null) {
                 inventoryUtil.serializeArmor(player, args[1]);
             }
             player.sendMessage(ChatColor.GREEN + "Kit succeed created");
-            plugin.getCustomConfig().load(plugin.getCustomConfigFile());
-        } catch (IOException | InvalidConfigurationException e) {
+            customConfig.save();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
