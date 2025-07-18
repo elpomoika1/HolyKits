@@ -38,7 +38,7 @@ public class KitGiveCommand implements SubCommand {
         String inputKitName = args[2];
         Player target = Bukkit.getPlayer(args[1]);
 
-        if (target == null || target.isEmpty()) {
+        if (target == null || !target.isOnline()) {
             config.send(player, "player-is-offline");
             return;
         }

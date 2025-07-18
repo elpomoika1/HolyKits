@@ -1,6 +1,7 @@
 package me.elpomoika.holykits.listener;
 
 import me.elpomoika.holykits.HolyKits;
+import me.elpomoika.holykits.config.CustomConfig;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
@@ -14,9 +15,11 @@ import java.util.Set;
 public class MenuListener implements Listener {
 
     private final HolyKits plugin;
+    private final CustomConfig customConfig;
 
     public MenuListener(HolyKits plugin) {
         this.plugin = plugin;
+        this.customConfig = plugin.getCustomConfig();
     }
 
     @EventHandler
@@ -38,10 +41,10 @@ public class MenuListener implements Listener {
     }
 
     private Set<String> getAllKitsName() {
-        final ConfigurationSection kitsSection = plugin.getCustomConfig().getConfigurationSection("kits");
+        var kitsSection = customConfig.getConfigurationSection("kits");
 
         if (kitsSection == null) {
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
         }
 
         return kitsSection.getKeys(false);

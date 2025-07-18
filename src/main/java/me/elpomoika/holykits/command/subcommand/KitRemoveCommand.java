@@ -2,6 +2,7 @@ package me.elpomoika.holykits.command.subcommand;
 
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
+import me.elpomoika.holykits.config.CustomConfig;
 import me.elpomoika.holykits.util.Config;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,10 +13,12 @@ public class KitRemoveCommand implements SubCommand {
 
     private final HolyKits plugin;
     private final Config config;
+    private final CustomConfig customConfig;
 
     public KitRemoveCommand(HolyKits plugin) {
         this.plugin = plugin;
         this.config = plugin.getDefaultConfig();
+        this.customConfig = plugin.getCustomConfig();
     }
 
     @Override
@@ -40,8 +43,8 @@ public class KitRemoveCommand implements SubCommand {
         String kitName = args[1];
 
         try {
-            plugin.getCustomConfig().set("kits." + kitName, null);
-            plugin.getCustomConfig().save(plugin.getCustomConfigFile());
+            customConfig.set("kits." + kitName, null);
+            customConfig.save();
 
             config.send(player, "messages.kit-removed", Map.of("%kit%", kitName));
         } catch (Exception e) {
