@@ -2,13 +2,10 @@ package me.elpomoika.holykits.config;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 public class Config {
