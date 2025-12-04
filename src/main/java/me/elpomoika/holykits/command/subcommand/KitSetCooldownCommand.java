@@ -10,11 +10,9 @@ import java.io.IOException;
 
 public class KitSetCooldownCommand implements SubCommand {
 
-    private final HolyKits plugin;
     private final CustomConfig customConfig;
 
     public KitSetCooldownCommand(HolyKits plugin) {
-        this.plugin = plugin;
         this.customConfig = plugin.getCustomConfig();
     }
 

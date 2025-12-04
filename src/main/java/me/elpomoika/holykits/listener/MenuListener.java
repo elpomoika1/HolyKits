@@ -1,9 +1,6 @@
 package me.elpomoika.holykits.listener;
 
-import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.config.CustomConfig;
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -14,12 +11,10 @@ import java.util.Set;
 
 public class MenuListener implements Listener {
 
-    private final HolyKits plugin;
     private final CustomConfig customConfig;
 
-    public MenuListener(HolyKits plugin) {
-        this.plugin = plugin;
-        this.customConfig = plugin.getCustomConfig();
+    public MenuListener(CustomConfig customConfig) {
+        this.customConfig = customConfig;
     }
 
     @EventHandler

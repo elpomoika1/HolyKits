@@ -2,8 +2,10 @@ package me.elpomoika.holykits.command.subcommand;
 
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
-import me.elpomoika.holykits.util.Config;
+import me.elpomoika.holykits.config.Config;
+import me.elpomoika.holykits.util.FormatUtil;
 import me.elpomoika.holykits.util.InventoryUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +41,7 @@ public class KitGiveCommand implements SubCommand {
         Player target = Bukkit.getPlayer(args[1]);
 
         if (target == null || !target.isOnline()) {
-            config.send(player, "player-is-offline");
+            player.sendMessage(FormatUtil.parseAndFormatMessage(config.getPlayerIsOffline(), Map.of()));
             return;
         }
 
@@ -58,7 +60,10 @@ public class KitGiveCommand implements SubCommand {
             inventoryUtil.giveDeserializedItems(target, kitName);
             inventoryUtil.giveArmor(target, armor, inventoryUtil.deserializeOffhand(kitName));
 
-            config.send(player, "kit-give-succeed", Map.of("%kit%", kitName, "%player%", target.getName()));
+            player.sendMessage(FormatUtil.parseAndFormatMessage(config.getKitGiveSucceed(),
+                    Map.of("%kit%", Component.text(kitName),
+                            "%player%", Component.text(target.getName()))
+            ));
         }
     }
 }

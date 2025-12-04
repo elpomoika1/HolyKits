@@ -1,17 +1,22 @@
 package me.elpomoika.holykits.menu;
 
-import me.elpomoika.holykits.util.Config;
-import org.bukkit.ChatColor;
+import me.elpomoika.holykits.config.Config;
+import me.elpomoika.holykits.util.FormatUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
+import xyz.xenondevs.inventoryaccess.component.ComponentWrapper;
 import xyz.xenondevs.invui.gui.Gui;
 import xyz.xenondevs.invui.item.builder.ItemBuilder;
 import xyz.xenondevs.invui.item.impl.CommandItem;
 import xyz.xenondevs.invui.item.impl.SimpleItem;
 import xyz.xenondevs.invui.window.Window;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PreviewMenu {
 
@@ -32,12 +37,20 @@ public class PreviewMenu {
     }
 
     private Gui buildPreviewGui(String kitName, Map<Integer, ItemStack> items) {
-        ItemBuilder glassItem = new ItemBuilder(getMaterial("menu.glasses"))
-                .setDisplayName(color(config.getConfig().getString("menu.glass-name")));
+        ItemBuilder glassItem = new ItemBuilder(Material.valueOf(config.getGlassMaterial().toUpperCase()))
+                .setDisplayName(new AdventureComponentWrapper(FormatUtil.parseAndFormatMessage(config.getGlassName(), Map.of())));
 
-        ItemBuilder giveItem = new ItemBuilder(getMaterial("menu.give-kit-item.material"))
-                .setDisplayName(color(config.getConfig().getString("menu.give-kit-item.name")))
-                .addLoreLines(getLore());
+        List<ComponentWrapper> loreWrapped = config.getGiveKitItemLore().stream()
+                .map(line -> {
+                    Component formatted = FormatUtil.parseAndFormatMessage(line, Map.of());
+
+                    return new AdventureComponentWrapper(formatted);
+                })
+                .collect(Collectors.toList());
+
+        ItemBuilder giveItem = new ItemBuilder(Material.valueOf(config.getGiveKitItemMaterial().toUpperCase()))
+                .setDisplayName(new AdventureComponentWrapper(FormatUtil.parseAndFormatMessage(config.getGiveKitItemName(), Map.of())))
+                .setLore(loreWrapped);
 
         Gui gui = Gui.normal()
                 .setStructure(
@@ -53,19 +66,5 @@ public class PreviewMenu {
         items.forEach((slot, item) -> gui.addItems(new SimpleItem(item)));
 
         return gui;
-    }
-
-    private Material getMaterial(String path) {
-        return Material.getMaterial(config.getConfig().getString(path, "STONE"));
-    }
-
-    private String[] getLore() {
-        return config.getConfig().getStringList("menu.give-kit-item.lore").stream()
-                .map(this::color)
-                .toArray(String[]::new);
-    }
-
-    private String color(String input) {
-        return ChatColor.translateAlternateColorCodes('&', input);
     }
 }

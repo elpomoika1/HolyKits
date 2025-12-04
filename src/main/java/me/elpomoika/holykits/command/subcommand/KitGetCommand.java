@@ -1,23 +1,24 @@
 package me.elpomoika.holykits.command.subcommand;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
 import me.elpomoika.holykits.config.CustomConfig;
 import me.elpomoika.holykits.model.Kit;
-import me.elpomoika.holykits.util.Config;
+import me.elpomoika.holykits.config.Config;
+import me.elpomoika.holykits.util.FormatUtil;
 import me.elpomoika.holykits.util.InventoryUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class KitGetCommand implements SubCommand {
 
-    private final Cache<String, Kit> kitCache;
+    private final Cache<@NotNull String, Kit> kitCache;
     private final HolyKits plugin;
     private final InventoryUtil inventoryUtil;
     private final Config config;
@@ -55,7 +56,7 @@ public class KitGetCommand implements SubCommand {
             if (inputKitName.equalsIgnoreCase(kitName)) {
 
                 if (!player.hasPermission("holykits.use." + kitName)) {
-                    config.send(player, "kit-no-permission");
+                    player.sendMessage(config.getKitNoPermission());
                     return;
                 }
 
@@ -66,8 +67,10 @@ public class KitGetCommand implements SubCommand {
 
                     if (plugin.getCooldownManager().hasCooldown(player.getUniqueId(), cooldownKey)) {
                         long remaining = plugin.getCooldownManager().getRemainingTime(player.getUniqueId(), cooldownKey);
-                        String formatTime = config.formatTime(remaining);
-                        config.send(player, "kit-remaining-time", Map.of("%remaining%", formatTime));
+                        String formatTime = FormatUtil.formatTime(remaining);
+                        player.sendMessage(FormatUtil.parseAndFormatMessage(config.getKitRemainingTime(),
+                                Map.of("%remaining%", Component.text(formatTime))
+                        ));
                         return;
                     }
 
@@ -87,11 +90,13 @@ public class KitGetCommand implements SubCommand {
                 if (kit != null && kit.getItems() != null) {
                     inventoryUtil.giveItemsFromMap(player, kit.getItems());
                     inventoryUtil.giveArmor(player, kit.getArmor(), kit.getOffhand());
+                    player.sendMessage(FormatUtil.parseAndFormatMessage(config.getKitSuccessGot(),
+                            Map.of("%kit%", Component.text(kitName))
+                    ));
+                    return;
                 } else {
                     throw new RuntimeException("Kit items is null");
                 }
-
-                config.send(player, "kit-success-got", Map.of("%kit%", kitName));
             }
         }
     }

@@ -4,12 +4,14 @@ import com.github.benmanes.caffeine.cache.Cache;
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.menu.PreviewMenu;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
-import me.elpomoika.holykits.util.Config;
+import me.elpomoika.holykits.config.Config;
+import me.elpomoika.holykits.util.FormatUtil;
 import me.elpomoika.holykits.util.InventoryUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -19,7 +21,7 @@ public class KitPreviewCommand implements SubCommand {
     private final HolyKits plugin;
     private final Config config;
     private final PreviewMenu previewMenu;
-    private final Cache<String, Map<Integer, ItemStack>> itemCache;
+    private final Cache<@NotNull String, Map<Integer, ItemStack>> itemCache;
 
     public KitPreviewCommand(HolyKits plugin) {
         this.plugin = plugin;
@@ -55,7 +57,7 @@ public class KitPreviewCommand implements SubCommand {
         
         String kitName = args[1];
         if (!kitsSection.contains(kitName)) {
-            config.send(player, "kit-not-found");
+            player.sendMessage(FormatUtil.parseAndFormatMessage(config.getKitNotFound(), Map.of()));
             return;
         }
 

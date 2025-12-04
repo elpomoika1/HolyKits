@@ -3,8 +3,6 @@ package me.elpomoika.holykits.command;
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.command.subcommand.*;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
-import me.elpomoika.holykits.util.Config;
-import me.elpomoika.holykits.util.InventoryUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

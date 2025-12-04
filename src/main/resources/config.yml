@@ -1,7 +1,6 @@
 messages:
   kit-name-is-empty: "Kit name can't be empty"
   kit-removed: "§aKit %kit% has been removed!"
-  kit-remove-error: "§cError while removing kit!"
   kit-not-found: "&cКит не найден"
   kit-already-exists: "§cKit already exists"
   kit-success-got: "&cТы успешно получил кит %kit%"
@@ -11,7 +10,7 @@ messages:
   player-is-offline: "&cТакого игрока не существует"
 
 menu:
-  glasses: BLACK_STAINED_GLASS_PANE
+  glass-material: BLACK_STAINED_GLASS_PANE
   glass-name: "@elpomoika"
   give-kit-item:
     material: DIAMOND_SWORD

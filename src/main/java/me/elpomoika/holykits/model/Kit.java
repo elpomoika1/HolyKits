@@ -1,5 +1,6 @@
 package me.elpomoika.holykits.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
@@ -7,8 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
 public class Kit {
     ItemStack[] armor;
     ItemStack offhand;

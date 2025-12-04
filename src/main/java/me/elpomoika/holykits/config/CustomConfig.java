@@ -1,14 +1,9 @@
 package me.elpomoika.holykits.config;
 
 import lombok.Getter;
-import me.elpomoika.holykits.util.InventoryUtil;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -53,10 +48,7 @@ public class CustomConfig {
     public boolean isKitExists(String kitName) {
         var kitSection = config.getConfigurationSection("kits");
 
-        if (kitName.equalsIgnoreCase(String.valueOf(kitSection))) {
-            return true;
-        }
-        return false;
+        return kitName.equalsIgnoreCase(String.valueOf(kitSection));
     }
 
     public boolean isKitNameEmpty(String kitName) {

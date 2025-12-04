@@ -3,7 +3,9 @@ package me.elpomoika.holykits.command.subcommand;
 import me.elpomoika.holykits.HolyKits;
 import me.elpomoika.holykits.command.subcommand.model.SubCommand;
 import me.elpomoika.holykits.config.CustomConfig;
-import me.elpomoika.holykits.util.Config;
+import me.elpomoika.holykits.config.Config;
+import me.elpomoika.holykits.util.FormatUtil;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,12 +13,10 @@ import java.util.Map;
 
 public class KitRemoveCommand implements SubCommand {
 
-    private final HolyKits plugin;
     private final Config config;
     private final CustomConfig customConfig;
 
     public KitRemoveCommand(HolyKits plugin) {
-        this.plugin = plugin;
         this.config = plugin.getDefaultConfig();
         this.customConfig = plugin.getCustomConfig();
     }
@@ -46,9 +46,10 @@ public class KitRemoveCommand implements SubCommand {
             customConfig.set("kits." + kitName, null);
             customConfig.save();
 
-            config.send(player, "messages.kit-removed", Map.of("%kit%", kitName));
+            player.sendMessage(FormatUtil.parseAndFormatMessage(config.getKitRemoved(),
+                    Map.of("%kit%", Component.text(kitName))
+            ));
         } catch (Exception e) {
-            config.send(player, "messages.kit-remove-error");
             throw new RuntimeException("Can't remove kit " + e.getMessage());
         }
     }
