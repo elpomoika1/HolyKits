@@ -1,6 +1,8 @@
 package me.elpomoika.holykits.menu;
 
+import lombok.RequiredArgsConstructor;
 import me.elpomoika.holykits.config.Config;
+import me.elpomoika.holykits.menu.item.GlassItem;
 import me.elpomoika.holykits.util.FormatUtil;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -18,13 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class PreviewMenu {
-
     private final Config config;
-
-    public PreviewMenu(Config config) {
-        this.config = config;
-    }
 
     public void openMenu(Player player, String kitName, Map<Integer, ItemStack> items) {
         Window window = Window.single()
@@ -37,9 +35,6 @@ public class PreviewMenu {
     }
 
     private Gui buildPreviewGui(String kitName, Map<Integer, ItemStack> items) {
-        ItemBuilder glassItem = new ItemBuilder(Material.valueOf(config.getGlassMaterial().toUpperCase()))
-                .setDisplayName(new AdventureComponentWrapper(FormatUtil.parseAndFormatMessage(config.getGlassName(), Map.of())));
-
         List<ComponentWrapper> loreWrapped = config.getGiveKitItemLore().stream()
                 .map(line -> {
                     Component formatted = FormatUtil.parseAndFormatMessage(line, Map.of());
@@ -53,13 +48,8 @@ public class PreviewMenu {
                 .setLore(loreWrapped);
 
         Gui gui = Gui.normal()
-                .setStructure(
-                        ". . . . . . . . .",
-                        ". . . . . . . . .",
-                        ". . . . . . . . .",
-                        ". . . . . . . . .",
-                        "# # # # ! # # # #")
-                .addIngredient('#', new SimpleItem(glassItem))
+                .setStructure(config.getStructure().toArray(new String[0]))
+                .addIngredient('g', new GlassItem(config))
                 .addIngredient('!', new CommandItem(giveItem, "/kit " + kitName))
                 .build();
 

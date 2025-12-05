@@ -1,14 +1,15 @@
 package me.elpomoika.holykits.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Kit {
     ItemStack[] armor;
     ItemStack offhand;

@@ -22,10 +22,12 @@ public class Config {
         final var menuSection = config.getConfigurationSection("menu");
         if (menuSection == null) throw new IllegalStateException("menu section in config.yml is null");
 
+        this.structure = menuSection.getStringList("structure");
+
         this.glassMaterial = menuSection.getString("glass-material");
         this.glassName = menuSection.getString("glass-name");
 
-        final var giveKitItemSection = menuSection.getConfigurationSection("give-kit-item");
+        final var giveKitItemSection = menuSection.getConfigurationSection("kit-item");
         if (giveKitItemSection == null) throw new IllegalStateException("menu.give-kit-item section in config.yml is null");
 
         this.giveKitItemMaterial = giveKitItemSection.getString("material");
@@ -33,6 +35,7 @@ public class Config {
         this.giveKitItemLore = giveKitItemSection.getStringList("lore");
     }
 
+    private List<String> structure;
     private String glassMaterial;
     private String glassName;
 

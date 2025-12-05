@@ -10,9 +10,15 @@ messages:
   player-is-offline: "&cТакого игрока не существует"
 
 menu:
+  structure:
+      - ". . . . . . . . ."
+      - ". . . . . . . . ."
+      - ". . . . . . . . ."
+      - ". . . . . . . . ."
+      - "g g g g ! g g g g"
   glass-material: BLACK_STAINED_GLASS_PANE
   glass-name: "@elpomoika"
-  give-kit-item:
+  kit-item:
     material: DIAMOND_SWORD
     name: "Получить кит"
     lore:
